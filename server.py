@@ -9,6 +9,10 @@ Data source: ShowJCR (hitfyd/ShowJCR)
 """
 
 import os
+import sys
+# Suppress FastMCP banner — must be set BEFORE importing fastmcp
+os.environ['FASTMCP_QUIET'] = '1'
+
 import pandas as pd
 from fastmcp import FastMCP
 
@@ -70,9 +74,9 @@ def load_data():
 
     return merged, lookup, issn_lookup, warn_set
 
-print("Loading journal data...")
+print("Loading journal data...", file=sys.stderr)
 df, lookup, issn_lookup, warn_set = load_data()
-print(f"Loaded {len(lookup)} journals ({len(issn_lookup)} ISSNs), {len(warn_set)} warnings")
+print(f"Loaded {len(lookup)} journals ({len(issn_lookup)} ISSNs), {len(warn_set)} warnings", file=sys.stderr)
 
 # ── MCP Server ────────────────────────────────────────────────────
 mcp = FastMCP(
